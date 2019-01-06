@@ -15,7 +15,14 @@ class XuzhouSpider(scrapy.Spider):
         pass
     else:
         os.mkdir(data_path)
-    start_urls = ['http://http://12345.xz.gov.cn/']
+    data_form = {
+        "__EVENTARGUMENT": "4",
+        "CaseGgfwAll1$Pager_input": "3",
+        "__EVENTTARGET": "CaseGgfwAll1$Pager",
+    }
+
+    def start_requests(self):
+
 
     def parse(self, response):
         pass
