@@ -31,7 +31,7 @@ class ChangShaSpider(scrapy.Spider):
 
     def start_requests(self):
         i = 0
-        while i < 4759:
+        while i < 57108:
             # while i < 2:
             print(i)
             url = self.base_url.format(i)
