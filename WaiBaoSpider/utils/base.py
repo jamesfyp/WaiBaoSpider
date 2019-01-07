@@ -12,5 +12,5 @@ def unicode_body(response):
 
 
 def deal_ntr(text):
-    content = text.replace(u"\n", u"").replace(u"\t", u"").replace(u"\r", u"").replace(u" ", u"").replace(u"&nbsp", u"")
+    content = text.strip().replace(u"\n", u"").replace(u"\t", u"").replace(u"\r", u"").replace(u" ", u"").replace(u"&nbsp", u"")
     return content
