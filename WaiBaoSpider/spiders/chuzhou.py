@@ -20,7 +20,7 @@ class ChuzhouSpider(scrapy.Spider):
 
     def start_requests(self):
         for i in range(1, 349):
-        # for i in range(1, 2):
+            # for i in range(1, 2):
             url = self.base_url.format(i)
             print(url)
             yield Request(url, callback=self.parse_list)
