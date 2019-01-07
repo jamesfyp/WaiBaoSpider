@@ -9,9 +9,6 @@ import os
 
 class ChuzhouSpider(scrapy.Spider):
     name = 'chuzhou'
-    custom_settings = {
-        'DOWNLOAD_DELAY': 2,
-    }
     base_url = "http://www.chuzhou.gov.cn/content/column/2983504?organId=&pageIndex={}"
     data_path = os.getcwd() + "/WaiBaoSpider/data/%s/" % name
     if os.path.exists(data_path):
@@ -20,6 +17,9 @@ class ChuzhouSpider(scrapy.Spider):
         os.mkdir(data_path)
     dump_list = CSVDumper(data_path + "%s_list.csv" % name)
     dump_detail = CSVDumper(data_path + "%s_detail.csv" % name)
+    custom_settings = {
+        'DOWNLOAD_DELAY': 2,
+    }
 
     def start_requests(self):
         for i in range(1, 349):
