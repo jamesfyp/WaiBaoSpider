@@ -9,6 +9,9 @@ import os
 
 class ChuzhouSpider(scrapy.Spider):
     name = 'chuzhou'
+    custom_settings = {
+        'DOWNLOAD_DELAY': 2,
+    }
     base_url = "http://www.chuzhou.gov.cn/content/column/2983504?organId=&pageIndex={}"
     data_path = os.getcwd() + "/WaiBaoSpider/data/%s/" % name
     if os.path.exists(data_path):

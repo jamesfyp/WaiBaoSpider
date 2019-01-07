@@ -7,7 +7,7 @@ from WaiBaoSpider.utils.base import unicode_body, deal_ntr
 import os
 
 
-class DalianSpider(scrapy.Spider):
+class JiaMuSiSpider(scrapy.Spider):
     name = 'jiamusi'
     base_list_url1 = "http://www.jms.gov.cn/html/zmhd/page/jms_10030002_{}.html"
     base_list_url2 = "http://www.jms.gov.cn/html/zmhd/page/jms_10030001_{}.html"
