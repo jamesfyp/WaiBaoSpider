@@ -26,6 +26,7 @@ class LiuAnSpider(scrapy.Spider):
 
     def start_requests(self):
         for i in range(1, 2160):
+            # for i in range(2, 4):
             url = self.base_url.format(i)
             print(url)
             yield Request(url, headers=self.headers, callback=self.parse_list)
@@ -49,14 +50,14 @@ class LiuAnSpider(scrapy.Spider):
             if info.xpath("./td[3]/a/span/text()"):
                 item[u"是否公开"] = u"不公开"
                 item_detail = {
-                    u"链接": u"",
-                    u"标题": u"",
+                    u"链接": item[u"链接"],
+                    u"标题": item[u"来信标题"],
                     u"来信人": u"",
-                    u"来信时间": u"",
-                    u"处理情况": u"",
+                    u"来信时间": item[u"来信时间"],
+                    u"处理情况": item[u"处理状态"],
                     u"督办部门": u"",
                     u"问题类别": u"",
-                    u"浏览": u"",
+                    u"浏览": item[u"浏览次数"],
                     u"来信内容": u"",
                     u"回复内容": u"",
                     u"回复单位": u"",
@@ -95,13 +96,13 @@ class LiuAnSpider(scrapy.Spider):
         lxnr = html.xpath("//div[@class='is-mailwen']/p//text()") if html.xpath(
             "//div[@class='is-mailwen']/p//text()") else []
         item[u"来信内容"] = deal_ntr("".join(lxnr))
-        hf_content = html.xpath("//div[@class='is-hfcontent']/p//text()") if html.xpath(
-            "//div[@class='is-hfcontent']/p//text()") else []
+        hf_content = html.xpath("//div[@class='is-hfcontent']//text()") if html.xpath(
+            "//div[@class='is-hfcontent']//text()") else []
         item[u"回复内容"] = deal_ntr("".join(hf_content))
-        item[u"回复单位"] = html.xpath("//div[@class='is-mialhf']/h1/span[2]/text()")[0].strip().replace(u"回复时间：",
+        item[u"回复单位"] = html.xpath("//div[@class='is-mialhf']/h1/span[2]/text()")[0].strip().replace(u"回复单位：",
                                                                                                      u"") if html.xpath(
             "//div[@class='is-mialhf']/h1/span[2]/text()") else ""
-        item[u"回复时间"] = html.xpath("//div[@class='is-mialhf']/h1/span[1]/text()")[0].strip().replace(u"回复单位：",
+        item[u"回复时间"] = html.xpath("//div[@class='is-mialhf']/h1/span[1]/text()")[0].strip().replace(u"回复时间：",
                                                                                                      u"") if html.xpath(
             "//div[@class='is-mialhf']/h1/span[1]/text()") else ""
         item[u"是否公开"] = u"是"
