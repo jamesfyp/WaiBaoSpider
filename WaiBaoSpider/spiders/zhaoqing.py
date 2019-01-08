@@ -30,8 +30,8 @@ class ZhaoQingSpider(scrapy.Spider):
     }
 
     def start_requests(self):
-        # for i in range(1, 562):
-        for i in range(1, 2):
+        for i in range(1, 562):
+            # for i in range(10, 12):
             url = self.base_url.format(i)
             yield Request(url, callback=self.parse_list, headers=self.headers)
 
@@ -59,16 +59,23 @@ class ZhaoQingSpider(scrapy.Spider):
 
     def parse_detail(self, response):
         body = unicode_body(response)
+        # print(response.body)
         data = response.meta
         html = etree.HTML(body)
         item = {}
         item[u"链接"] = data["url"]
-        fyr_zw = html.xpath("//div[@class='ask_department_left']/table/tbody/tr[1]/td")[1:] if len(
-            html.xpath("//div[@class='ask_department_left']/table/tbody/tr[1]/td")) > 1 else []
-        item[u"发言人及职位"] = deal_ntr("".join(fyr_zw))
-        lianxiren = html.xpath("//div[@class='ask_department_left']/table/tbody/tr[2]/td")[1:] if len(
-            html.xpath("//div[@class='ask_department_left']/table/tbody/tr[2]/td")) > 1 else []
-        item[u"联系人"] = deal_ntr("".join(lianxiren))
+        fyr_zw = html.xpath("//div[@class='ask_department_left']/td/table/tr[1]/td")[1:] if len(
+            html.xpath("//div[@class='ask_department_left']/td/table/tr[1]/td")) > 1 else []
+        fyr_zw_list = []
+        for i in fyr_zw:
+            fyr_zw_list += i.xpath(".//text()") if i.xpath(".//text()") else []
+        item[u"发言人及职位"] = deal_ntr("".join(fyr_zw_list))
+        lianxiren = html.xpath("//div[@class='ask_department_left']/td/table/tr[2]/td")[1:] if len(
+            html.xpath("//div[@class='ask_department_left']/td/table/tr[2]/td")) > 1 else []
+        lianxiren_list = []
+        for i in lianxiren:
+            lianxiren_list += i.xpath(".//text()") if i.xpath(".//text()") else []
+        item[u"联系人"] = deal_ntr("".join(lianxiren_list))
         item[u"发言单位"] = html.xpath("//div[@class='ask_department_name']/span/text()")[0].strip() if html.xpath(
             "//div[@class='ask_department_name']/span/text()") else ""
         dwjj = html.xpath("//div[@class='ask_department_con']//text()") if html.xpath(
@@ -79,11 +86,12 @@ class ZhaoQingSpider(scrapy.Spider):
         item[u"发布时间"] = html.xpath("//div[@class='liuyan_user_mation']/font[2]/text()")[0].strip() if html.xpath(
             "//div[@class='liuyan_user_mation']/font[2]/text()") else ""
         item[u"浏览记录"] = data["lls"]
-        item[u"问政内容"] = html.xpath("(//div[@class='liuyan_user_text'])[1]//text()") if html.xpath("(//div[@class='liuyan_user_text'])[1]//text()") else []
-        item[u"部门回复内容"] = html.xpath("")[0].strip() if html.xpath("") else ""
-        item[u"回复时间"] = html.xpath("")[0].strip() if html.xpath("") else ""
-        item[u""] = html.xpath("")[0].strip() if html.xpath("") else ""
-        item[u""] = html.xpath("")[0].strip() if html.xpath("") else ""
-        item[u""] = html.xpath("")[0].strip() if html.xpath("") else ""
-        item[u""] = html.xpath("")[0].strip() if html.xpath("") else ""
+        wznr = html.xpath("(//div[@class='liuyan_user_text'])[1]//text()") if html.xpath(
+            "(//div[@class='liuyan_user_text'])[1]//text()") else []
+        bmhfnr = html.xpath("(//div[@class='liuyan_user_text'])[2]//text()") if html.xpath(
+            "(//div[@class='liuyan_user_text'])[2]//text()") else []
+        item[u"问政内容"] = deal_ntr("".join(wznr))
+        item[u"部门回复内容"] = deal_ntr("".join(bmhfnr))
+        item[u"回复时间"] = html.xpath("//div[@class='ask_text_name fl_r']/p[2]/text()") if html.xpath(
+            "//div[@class='ask_text_name fl_r']/p[2]/text()") else ""
         self.dump_detail.process_item(item)
