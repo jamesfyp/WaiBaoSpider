@@ -7,9 +7,10 @@ from WaiBaoSpider.utils.base import unicode_body, deal_ntr
 import os
 
 
-class LiuAnSpider(scrapy.Spider):
-    name = "liuan"
-    base_url = "http://www.luan.gov.cn/nocache/supervision/?product_id=3&page={}"
+class LuAnSpider(scrapy.Spider):
+    name = "luan"
+    # base_url = "http://www.luan.gov.cn/nocache/supervision/?product_id=3&page={}"
+    base_url = "http://www.luan.gov.cn/zxly/?type=product&page={}"
     data_path = os.getcwd() + "/WaiBaoSpider/data/%s/" % name
     if os.path.exists(data_path):
         pass
@@ -25,51 +26,66 @@ class LiuAnSpider(scrapy.Spider):
     # }
 
     def start_requests(self):
-        for i in range(1, 2160):
+        for i in range(1, 915):
             # for i in range(2, 4):
             url = self.base_url.format(i)
             print(url)
             yield Request(url, headers=self.headers, callback=self.parse_list)
 
+    # def parse_list(self, response):
+    #     body = unicode_body(response)
+    #     html = etree.HTML(body)
+    #     lines = html.xpath("//table[@class='is-xjnr']/tr")
+    #     print(len(lines))
+    #     for info in lines:
+    #         item = {}
+    #         item[u"类别"] = info.xpath("./td[1]/text()")[0].strip() if info.xpath("./td[1]/text()") else ""
+    #         title = info.xpath("./td[3]/a//text()") if info.xpath("./td[3]/a//text()") else []
+    #         item[u"来信标题"] = deal_ntr("".join(title).strip())
+    #         item[u"来信时间"] = info.xpath("./td[5]/text()")[0].strip() if info.xpath("./td[5]/text()") else ""
+    #         item[u"处理状态"] = info.xpath("./td[7]/span/text()")[0].strip() if info.xpath("./td[7]/span/text()") else ""
+    #         item[u"浏览次数"] = info.xpath("./td[9]/text()")[0].strip() if info.xpath("./td[9]/text()") else ""
+    #         item[u"回复评价"] = info.xpath("./td[11]/a/text()")[0].strip() if info.xpath("./td[11]/a/text()") else ""
+    #         item[u"链接"] = "http://www.luan.gov.cn{}".format(
+    #             info.xpath("./td[3]/a/@href")[0].strip() if info.xpath("./td[3]/a/@href") else "")
+    #         if info.xpath("./td[3]/a/span/text()"):
+    #             item[u"是否公开"] = u"不公开"
+    #             item_detail = {
+    #                 u"链接": item[u"链接"],
+    #                 u"标题": item[u"来信标题"],
+    #                 u"来信人": u"",
+    #                 u"来信时间": item[u"来信时间"],
+    #                 u"处理情况": item[u"处理状态"],
+    #                 u"督办部门": u"",
+    #                 u"问题类别": u"",
+    #                 u"浏览": item[u"浏览次数"],
+    #                 u"来信内容": u"",
+    #                 u"回复内容": u"",
+    #                 u"回复单位": u"",
+    #                 u"回复时间": u"",
+    #                 u"是否公开": u"否",
+    #             }
+    #             self.dump_detail.process_item(item_detail)
+    #         else:
+    #             item[u"是否公开"] = u"公开"
+    #             yield Request(item[u"链接"], headers=self.headers, callback=self.parse_detail,
+    #                           meta={"url": item[u"链接"], "llcs": item[u"浏览次数"], "clzt": item[u"处理状态"]})
+    #         self.dump_list.process_item(item)
+
     def parse_list(self, response):
         body = unicode_body(response)
         html = etree.HTML(body)
-        lines = html.xpath("//table[@class='is-xjnr']/tr")
+        lines = html.xpath("//ul[@class='is-listnews']/li")
         print(len(lines))
         for info in lines:
             item = {}
-            item[u"类别"] = info.xpath("./td[1]/text()")[0].strip() if info.xpath("./td[1]/text()") else ""
-            title = info.xpath("./td[3]/a//text()") if info.xpath("./td[3]/a//text()") else []
-            item[u"来信标题"] = deal_ntr("".join(title).strip())
-            item[u"来信时间"] = info.xpath("./td[5]/text()")[0].strip() if info.xpath("./td[5]/text()") else ""
-            item[u"处理状态"] = info.xpath("./td[7]/span/text()")[0].strip() if info.xpath("./td[7]/span/text()") else ""
-            item[u"浏览次数"] = info.xpath("./td[9]/text()")[0].strip() if info.xpath("./td[9]/text()") else ""
-            item[u"回复评价"] = info.xpath("./td[11]/a/text()")[0].strip() if info.xpath("./td[11]/a/text()") else ""
+            item[u"来信标题"] = info.xpath("./a/text()")[0].strip() if info.xpath("./a/text()") else ""
+            item[u"来信时间"] = info.xpath("./span/text()")[0].strip() if info.xpath("./span/text()") else ""
             item[u"链接"] = "http://www.luan.gov.cn{}".format(
-                info.xpath("./td[3]/a/@href")[0].strip() if info.xpath("./td[3]/a/@href") else "")
-            if info.xpath("./td[3]/a/span/text()"):
-                item[u"是否公开"] = u"不公开"
-                item_detail = {
-                    u"链接": item[u"链接"],
-                    u"标题": item[u"来信标题"],
-                    u"来信人": u"",
-                    u"来信时间": item[u"来信时间"],
-                    u"处理情况": item[u"处理状态"],
-                    u"督办部门": u"",
-                    u"问题类别": u"",
-                    u"浏览": item[u"浏览次数"],
-                    u"来信内容": u"",
-                    u"回复内容": u"",
-                    u"回复单位": u"",
-                    u"回复时间": u"",
-                    u"是否公开": u"否",
-                }
-                self.dump_detail.process_item(item_detail)
-            else:
-                item[u"是否公开"] = u"公开"
-                yield Request(item[u"链接"], headers=self.headers, callback=self.parse_detail,
-                              meta={"url": item[u"链接"], "llcs": item[u"浏览次数"], "clzt": item[u"处理状态"]})
+                info.xpath("./a/@href")[0].strip() if info.xpath("./a/@href") else "")
             self.dump_list.process_item(item)
+            yield Request(item[u"链接"], headers=self.headers, callback=self.parse_detail,
+                          meta={"url": item[u"链接"]})
 
     def parse_detail(self, response):
         body = unicode_body(response)
@@ -85,14 +101,16 @@ class LiuAnSpider(scrapy.Spider):
         item[u"来信时间"] = html.xpath("//div[@class='is-mailinfo']/text()[2]")[0].strip().replace(u"来信时间：",
                                                                                                u"") if html.xpath(
             "//div[@class='is-mailinfo']/text()[2]") else ""
-        item[u"处理情况"] = data["clzt"]
+        item[u"处理情况"] = html.xpath("//span[@class='orange state']/text()")[0].strip() if html.xpath(
+            "//span[@class='orange state']/text()") else ""
         dbbm = html.xpath("//div[@class='is-mailinfo']/span[4]/text()[1]")[0].strip().replace(u"|",
                                                                                               u"").replace(
             u"督办部门：", u"") if html.xpath("//div[@class='is-mailinfo']/span[4]/text()[1]") else ""
         item[u"督办部门"] = deal_ntr(dbbm)
         item[u"问题类别"] = html.xpath("//div[@class='is-mailinfo']/span[4]/span[@class='red'][1]/text()")[
             0].strip() if html.xpath("//div[@class='is-mailinfo']/span[4]/span[@class='red'][1]/text()") else ""
-        item[u"浏览"] = data["llcs"]
+        item[u"浏览"] = html.xpath("//div[@class='is-mailinfo']/span[4]/span[@class='red'][2]/text()")[
+            0].strip() if html.xpath("//div[@class='is-mailinfo']/span[4]/span[@class='red'][2]/text()") else ""
         lxnr = html.xpath("//div[@class='is-mailwen']/p//text()") if html.xpath(
             "//div[@class='is-mailwen']/p//text()") else []
         item[u"来信内容"] = deal_ntr("".join(lxnr))
@@ -105,5 +123,4 @@ class LiuAnSpider(scrapy.Spider):
         item[u"回复时间"] = html.xpath("//div[@class='is-mialhf']/h1/span[1]/text()")[0].strip().replace(u"回复时间：",
                                                                                                      u"") if html.xpath(
             "//div[@class='is-mialhf']/h1/span[1]/text()") else ""
-        item[u"是否公开"] = u"是"
         self.dump_detail.process_item(item)
