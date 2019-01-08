@@ -51,7 +51,7 @@ class BaseSpider(scrapy.Spider):
             item[u""] = info.xpath("")[0].strip() if info.xpath("") else ""
             item[u"链接"] = info.xpath("")[0].strip() if info.xpath("") else ""
             self.dump_list.process_item(item)
-            yield Request(item[u"链接"], callback=self.parse_detail, headers=self.headers)
+            yield Request(item[u"链接"], callback=self.parse_detail, headers=self.headers, meta={"url": item[u"链接"]})
 
     def parse_detail(self, response):
         body = unicode_body(response)
