@@ -3,6 +3,9 @@
 # @Date: 2019/1/7
 # @File: base.py
 # @Software: PyCharm
+"""
+建议先自动化，再爬详情
+"""
 
 import scrapy
 from scrapy import Request
