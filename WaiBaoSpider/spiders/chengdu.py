@@ -33,7 +33,7 @@ class ChengDuSpider(scrapy.Spider):
     }
 
     def start_requests(self):
-        for i in range(1, 2949):
+        for i in range(1964, 2949):
             # for i in range(1, 2):
             self.data_form["pageID"] = str(i)
             url = self.base_url.format(i)
