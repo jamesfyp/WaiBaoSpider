@@ -24,18 +24,18 @@ class XianYangSpider(scrapy.Spider):
     dump_list = CSVDumper(data_path + "%s_list.csv" % name)
     dump_detail = CSVDumper(data_path + "%s_detail.csv" % name)
     custom_settings = {
-        # 'DOWNLOAD_DELAY': 1,
+        'DOWNLOAD_DELAY': 0.5,
     }
     headers = {
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36",
     }
 
     def start_requests(self):
-        for i in range(1, 503):
-            # for i in range(1, 2):
-            url = self.base_url.format(i)
-            yield Request(url, callback=self.parse_list, headers=self.headers, meta={"source": u"市长信箱"})
-        for i in range(1, 562):
+        #     for i in range(1, 503):
+        #         # for i in range(1, 2):
+        #         url = self.base_url.format(i)
+        #         yield Request(url, callback=self.parse_list, headers=self.headers, meta={"source": u"市长信箱"})
+        for i in range(139, 562):
             # for i in range(1, 2):
             url = self.base_url2.format(i)
             yield Request(url, callback=self.parse_list, headers=self.headers, meta={"source": u"部门信箱"})
