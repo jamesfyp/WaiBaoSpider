@@ -8,8 +8,28 @@ import scrapy
 from scrapy import Request
 from lxml import etree
 from WaiBaoSpider.utils.csvWriter import CSVDumper
-from WaiBaoSpider.utils.base import unicode_body, deal_ntr
+
+
+# from WaiBaoSpider.utils.base import unicode_body, deal_ntr
 import os
+
+
+def unicode_body(response):
+    if isinstance(response.body, unicode):
+        return response.body
+    try:
+        return response.body_as_unicode()
+    except:
+        try:
+            return response.body.decode(response.encoding)
+        except:
+            raise Exception("Cannot convert response body to unicode!")
+
+
+def deal_ntr(text):
+    content = text.strip().replace(u"\n", u"").replace(u"\t", u"").replace(u"\r", u"").replace(u" ", u"").replace(
+        u"&nbsp", u"")
+    return content
 
 
 class ShiJiaZhuangSpider(scrapy.Spider):
@@ -24,16 +44,20 @@ class ShiJiaZhuangSpider(scrapy.Spider):
     dump_detail = CSVDumper(data_path + "%s_detail.csv" % name)
     custom_settings = {
         # 'DOWNLOAD_DELAY': 1,
+        'DOWNLOAD_DELAY': 1.5,
     }
     headers = {
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.119 Safari/537.36",
     }
 
     def start_requests(self):
-        for i in range(1, 20800):
+        # for i in range(1, 8000):
+        # for i in range(8000, 14000):
+        for i in range(14000, 20800):
             # for i in range(1, 2):
             url = self.base_url.format(i)
-            yield Request(url, callback=self.parse_list, headers=self.headers)
+            print(i)
+            yield Request(url, callback=self.parse_list, headers=self.headers, meta={'dont_redirect': True, })
 
     def parse_list(self, response):
         body = unicode_body(response)
