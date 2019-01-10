@@ -14,7 +14,8 @@ import os
 
 class TongChuanSpider(scrapy.Spider):
     name = "tongchuan"
-    base_url = "http://www.tongchuan.gov.cn/news_list.rt?mailType=0&titleNumber=30&newsNumber=10&step=1&sort=7&type=1&isTuijian=2&channlId=181&pageNo={}"
+    base_url = "http://www.tongchuan.gov.cn/news_list.rt?channlId=181&pageNo={}"
+    base_url2 = "http://www.tongchuan.gov.cn/news_list.rt?channlId=182&pageNo={}"
     data_path = os.getcwd() + "/WaiBaoSpider/data/%s/" % name
     if os.path.exists(data_path):
         pass
@@ -26,17 +27,22 @@ class TongChuanSpider(scrapy.Spider):
         'DOWNLOAD_DELAY': 1,
     }
     headers = {
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.98 Safari/537.36 LBBROWSER",
     }
 
     def start_requests(self):
+        for i in range(1, 234):
+            # for i in range(1, 12):
+            url = self.base_url2.format(i)
+            yield Request(url, callback=self.parse_list, headers=self.headers, meta={"source": u"部门信箱"})
         for i in range(1, 1196):
             # for i in range(1, 12):
             url = self.base_url.format(i)
-            yield Request(url, callback=self.parse_list, headers=self.headers)
+            yield Request(url, callback=self.parse_list, headers=self.headers, meta={"source": u"市长信箱"})
 
     def parse_list(self, response):
         body = unicode_body(response)
+        data = response.meta
         html = etree.HTML(body)
         lines = html.xpath("//table[@class='shouli_tab']/tr")[1:]
         print(len(lines))
@@ -49,8 +55,10 @@ class TongChuanSpider(scrapy.Spider):
             item[u"办理状态"] = info.xpath("./td[5]/span/text()")[0].strip() if info.xpath("./td[5]/span/text()") else ""
             item[u"链接"] = "http://www.tongchuan.gov.cn{}".format(
                 info.xpath("./td[2]/a/@href")[0].strip() if info.xpath("./td[2]/a/@href") else "")
+            item[u"来源"] = data["source"]
             self.dump_list.process_item(item)
-            yield Request(item[u"链接"], callback=self.parse_detail, headers=self.headers, meta={"url": item[u"链接"]})
+            yield Request(item[u"链接"], callback=self.parse_detail, headers=self.headers,
+                          meta={"url": item[u"链接"], "source": data["source"]})
 
     def parse_detail(self, response):
         body = unicode_body(response)
@@ -79,5 +87,6 @@ class TongChuanSpider(scrapy.Spider):
         item[u"办理情况"] = html.xpath("//div[@class='yisq']/table[2]/tr[5]/td[2]//text()") if html.xpath(
             "//div[@class='yisq']/table[2]/tr[5]/td[2]//text()") else []
         item[u"办理情况"] = deal_ntr("".join(item[u"办理情况"]))
+        item[u"来源"] = data["source"]
         item[u"链接"] = data["url"]
         self.dump_detail.process_item(item)
