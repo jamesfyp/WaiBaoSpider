@@ -31,7 +31,7 @@ class PingLiangSpider(scrapy.Spider):
     }
 
     def start_requests(self):
-        for i in range(1, 5707):
+        for i in range(4900, 5707):
             # for i in range(1, 5):
             url = self.base_url.format(i)
             yield Request(url, callback=self.parse_list, headers=self.headers)
