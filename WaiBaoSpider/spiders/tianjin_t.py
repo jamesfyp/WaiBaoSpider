@@ -9,30 +9,48 @@ import scrapy
 from scrapy import Request
 from lxml import etree
 from WaiBaoSpider.utils.csvWriter import CSVDumper
-from WaiBaoSpider.utils.base import unicode_body, deal_ntr
-import os
+# from WaiBaoSpider.utils.base import unicode_body, deal_ntr
+
+
+def unicode_body(response):
+    if isinstance(response.body, unicode):
+        return response.body
+    try:
+        return response.body_as_unicode()
+    except:
+        try:
+            return response.body.decode(response.encoding)
+        except:
+            raise Exception("Cannot convert response body to unicode!")
+
+
+def deal_ntr(text):
+    content = text.strip().replace(u"\n", u"").replace(u"\t", u"").replace(u"\r", u"").replace(u" ", u"").replace(
+        u"&nbsp", u"")
+    return content
 
 
 class TianJinTwoSpider(scrapy.Spider):
-    name = "tianjintwo"
+    name = "tianjintwoss"
     base_url = "http://zm.tj.gov.cn/gov_open/question/zero/list8a.jsp?curpage={}&rows=15&deptId=1002000000000000"
-    data_path = os.getcwd() + "/WaiBaoSpider/data/%s/" % name
-    if os.path.exists(data_path):
-        pass
-    else:
-        os.mkdir(data_path)
-    dump_list = CSVDumper(data_path + "%s_list.csv" % name)
-    dump_detail = CSVDumper(data_path + "%s_detail.csv" % name)
+    # data_path = os.getcwd() + "/WaiBaoSpider/data/%s/" % name
+    # if os.path.exists(data_path):
+    #     pass
+    # else:
+    #     os.mkdir(data_path)
+    dump_list = CSVDumper("%s_list.csv" % name)
+    dump_detail = CSVDumper("%s_detail.csv" % name)
     custom_settings = {
-        'DOWNLOAD_DELAY': 0.2,
+        # 'DOWNLOAD_DELAY': 0.2,
     }
     headers = {
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US) AppleWebKit/525.13 (KHTML, like Gecko) Chrome/0.2.149.27 Safari/525.13",
     }
 
     def start_requests(self):
-        for i in range(1, 15491):
+        for i in range(14600, 15491):
             # for i in range(1, 10):
+            print(">>>>", str(i))
             url = self.base_url.format(i)
             yield Request(url, callback=self.parse_list, headers=self.headers)
 
