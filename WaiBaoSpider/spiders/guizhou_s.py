@@ -13,8 +13,8 @@ import os
 
 
 class GuiZhouSSpider(scrapy.Spider):
-    name = "guizhou_as"
-    base_url = "http://www.gzegn.gov.cn/gzszwfww/cxsx/showcxlb.do?pageno={}&webId=5&pagenum1=13353"
+    name = "guizhou_lps_lztq"
+    base_url = "http://www.gzegn.gov.cn/gzszwfww/cxsx/showcxlb.do?pageno={}&webId=129"
     data_path = os.getcwd() + "/WaiBaoSpider/data/%s/" % name
     if os.path.exists(data_path):
         pass
@@ -30,7 +30,7 @@ class GuiZhouSSpider(scrapy.Spider):
     }
 
     def start_requests(self):
-        for i in range(1, 13354):
+        for i in range(1, 304):
             print(i)
             # for i in range(1, 2):
             # self.data_form["pageID"] = str(i)
