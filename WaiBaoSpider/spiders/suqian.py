@@ -15,7 +15,7 @@ import os
 class SuQianSpider(scrapy.Spider):
     name = "suqian"
     base_url = "http://bbs.suqian.cn/forum.php?mod=forumdisplay&fid=43&page={}"
-    data_path = os.getcwd() + "/WaiBaoSpider/data/%s/" % name
+    data_path = os.getcwd() + "/WaiBaoSpider/data/"
     if os.path.exists(data_path):
         pass
     else:

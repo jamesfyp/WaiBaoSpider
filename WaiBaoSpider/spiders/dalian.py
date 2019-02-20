@@ -10,7 +10,7 @@ import os
 class DalianSpider(scrapy.Spider):
     name = 'dalian'
     base_url = "http://xzfw.dl.gov.cn/fgw/gzjl/xjlb_{}.jspx"
-    data_path = os.getcwd() + "/WaiBaoSpider/data/dalian/"
+    data_path = os.getcwd() + "/WaiBaoSpider/data/"
     dump_list = CSVDumper(data_path + "%s_list.csv" % name)
     dump_detail = CSVDumper(data_path + "%s_detail.csv" % name)
     custom_settings = {

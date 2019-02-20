@@ -35,7 +35,7 @@ def deal_ntr(text):
 class ShiJiaZhuangSpider(scrapy.Spider):
     name = "shijiazhuang"
     base_url = "http://new.sjz.gov.cn/zfxxinfolist.jsp?current={}&wid=1&cid=1259811582187"
-    data_path = os.getcwd() + "/WaiBaoSpider/data/%s/" % name
+    data_path = os.getcwd() + "/WaiBaoSpider/data/"
     if os.path.exists(data_path):
         pass
     else:

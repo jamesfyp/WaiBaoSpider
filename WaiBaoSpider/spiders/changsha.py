@@ -15,7 +15,7 @@ import os
 class ChangShaSpider(scrapy.Spider):
     name = "changsha"
     base_url = "http://wlwz.changsha.gov.cn/webapp/cs/email/index.jsp?cflag=1&emailList.offset={}&emailList.desc=false"
-    data_path = os.getcwd() + "/WaiBaoSpider/data/%s/" % name
+    data_path = os.getcwd() + "/WaiBaoSpider/data/"
     if os.path.exists(data_path):
         pass
     else:

@@ -15,7 +15,7 @@ import os
 class BaseSpider(scrapy.Spider):
     name = ""
     base_url = ""
-    data_path = os.getcwd() + "/WaiBaoSpider/data/%s/" % name
+    data_path = os.getcwd() + "/WaiBaoSpider/data/"
     if os.path.exists(data_path):
         pass
     else:

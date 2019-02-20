@@ -16,7 +16,7 @@ sys.setdefaultencoding('utf8')
 class XuzhouSpider(scrapy.Spider):
     name = 'xuzhou'
     base_url = "http://12345.xz.gov.cn/xzbmweb/ywxxtemplate/ggfw_slgs.aspx"
-    data_path = os.getcwd() + "/WaiBaoSpider/data/%s/" % name
+    data_path = os.getcwd() + "/WaiBaoSpider/data/"
     if os.path.exists(data_path):
         pass
     else:

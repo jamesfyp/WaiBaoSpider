@@ -16,7 +16,7 @@ import os
 class HuaiBeiSpider(scrapy.Spider):
     name = "huaibei"
     base_url = "http://www.huaibei.gov.cn/content/column/4697478?pageIndex={}"
-    data_path = os.getcwd() + "/WaiBaoSpider/data/%s/" % name
+    data_path = os.getcwd() + "/WaiBaoSpider/data/"
     if os.path.exists(data_path):
         pass
     else:

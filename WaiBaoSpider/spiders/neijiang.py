@@ -19,7 +19,7 @@ import os
 class NeiJiangSpider(scrapy.Spider):
     name = "neijiang"
     base_url = "http://www.njwlwz.gov.cn/Mail/Allemail.aspx?MailBox=%u6240%u6709%u4fe1%u7bb1&Manager=%25&ShowTitle=1&MailType=%25&Title=%25&Sender=%25&Open=1"
-    data_path = os.getcwd() + "/WaiBaoSpider/data/%s/" % name
+    data_path = os.getcwd() + "/WaiBaoSpider/data/"
     if os.path.exists(data_path):
         pass
     else:

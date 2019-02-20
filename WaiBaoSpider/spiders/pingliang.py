@@ -16,7 +16,7 @@ import re
 class PingLiangSpider(scrapy.Spider):
     name = "pingliang"
     base_url = "http://wzly.pingliang.gov.cn/Index_index_p_{}_"
-    data_path = os.getcwd() + "/WaiBaoSpider/data/%s/" % name
+    data_path = os.getcwd() + "/WaiBaoSpider/data/"
     if os.path.exists(data_path):
         pass
     else:

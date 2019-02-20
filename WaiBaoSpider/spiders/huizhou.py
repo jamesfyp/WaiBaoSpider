@@ -15,7 +15,7 @@ import os
 class HuiZhouSpider(scrapy.Spider):
     name = "huizhou"
     base_url = "http://www.huizhou.gov.cn/wlwzlist.shtml?method=letters4bsznList3&pager.offset={}"
-    data_path = os.getcwd() + "/WaiBaoSpider/data/%s/" % name
+    data_path = os.getcwd() + "/WaiBaoSpider/data/"
     if os.path.exists(data_path):
         pass
     else:

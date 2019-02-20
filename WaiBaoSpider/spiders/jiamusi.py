@@ -11,7 +11,7 @@ class JiaMuSiSpider(scrapy.Spider):
     name = 'jiamusi'
     base_list_url1 = "http://www.jms.gov.cn/html/zmhd/page/jms_10030002_{}.html"
     base_list_url2 = "http://www.jms.gov.cn/html/zmhd/page/jms_10030001_{}.html"
-    data_path = os.getcwd() + "/WaiBaoSpider/data/jiamusi/"
+    data_path = os.getcwd() + "/WaiBaoSpider/data/"
     dump_list = CSVDumper(data_path + "%s_list.csv" % name)
     dump_detail = CSVDumper(data_path + "%s_detail.csv" % name)
 

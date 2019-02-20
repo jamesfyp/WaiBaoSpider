@@ -16,7 +16,7 @@ class HeBiSpider(scrapy.Spider):
     name = "hebi"
     base_url = "http://www.hebi.gov.cn/eportal/ui?currentPage={}&moduleId=13299&pageId=436795"
 
-    data_path = os.getcwd() + "/WaiBaoSpider/data/%s/" % name
+    data_path = os.getcwd() + "/WaiBaoSpider/data/"
     if os.path.exists(data_path):
         pass
     else:

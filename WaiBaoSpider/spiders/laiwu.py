@@ -11,7 +11,7 @@ import os
 class LaiWuSpider(scrapy.Spider):
     name = "laiwu"
     base_purl = "http://www.laiwu.gov.cn/jact/front/dataproxy_mailnewlist.action?startrecord={sid}&endrecord={eid}&perpage=19&groupSize=3"
-    data_path = os.getcwd() + "/WaiBaoSpider/data/%s/" % name
+    data_path = os.getcwd() + "/WaiBaoSpider/data/"
     if os.path.exists(data_path):
         pass
     else:

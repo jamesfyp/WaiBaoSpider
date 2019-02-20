@@ -15,7 +15,7 @@ import os
 class ChengDuSpider(scrapy.Spider):
     name = "chengdu"
     base_url = "http://12345.chengdu.gov.cn/openWorkList?page={}"
-    data_path = os.getcwd() + "/WaiBaoSpider/data/%s/" % name
+    data_path = os.getcwd() + "/WaiBaoSpider/data/"
     if os.path.exists(data_path):
         pass
     else:

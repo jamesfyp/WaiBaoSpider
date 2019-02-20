@@ -18,7 +18,7 @@ class BeiHaiSpider(scrapy.Spider):
     name = "beihai"
     base_url = "http://zwhd.beihai.gov.cn:8080/wcm/RefersServlet"
     base_url_detail = "http://zwhd.beihai.gov.cn:8080/wcm/GetGrSelect.do"
-    data_path = os.getcwd() + "/WaiBaoSpider/data/%s/" % name
+    data_path = os.getcwd() + "/WaiBaoSpider/data/"
     if os.path.exists(data_path):
         pass
     else:

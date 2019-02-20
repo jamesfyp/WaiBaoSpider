@@ -16,7 +16,7 @@ import os
 class YiChangSpider(scrapy.Spider):
     name = "yichang"
     base_url = "http://hfrx.cn3x.com.cn/index.php?m=case&c=list&t=3&s=1&page={}"
-    data_path = os.getcwd() + "/WaiBaoSpider/data/%s/" % name
+    data_path = os.getcwd() + "/WaiBaoSpider/data/"
     if os.path.exists(data_path):
         pass
     else:

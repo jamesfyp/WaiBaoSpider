@@ -15,7 +15,7 @@ import os
 class LiangShanSpider(scrapy.Spider):
     name = "liangshan"
     base_url = "http://12345.lsz.gov.cn/Flow/FlowPublic?PageNum={}"
-    data_path = os.getcwd() + "/WaiBaoSpider/data/%s/" % name
+    data_path = os.getcwd() + "/WaiBaoSpider/data/"
     if os.path.exists(data_path):
         pass
     else:

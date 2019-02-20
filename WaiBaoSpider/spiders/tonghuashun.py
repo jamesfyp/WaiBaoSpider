@@ -162,7 +162,7 @@ u_list = [
 class TongHuaShunSpider(scrapy.Spider):
     name = "tonghuashun"
     # base_url = "http://search.10jqka.com.cn/search?tid=info&qs=box_ths&w={}"
-    data_path = os.getcwd() + "/WaiBaoSpider/data/%s/" % name
+    data_path = os.getcwd() + "/WaiBaoSpider/data/"
     if os.path.exists(data_path):
         pass
     else:

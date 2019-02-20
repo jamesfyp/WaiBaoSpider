@@ -17,7 +17,7 @@ class ShaoGuanSpider(scrapy.Spider):
     name = "shaoguan"
     base_url = "https://wlwz.sg.gov.cn/website/wlwz/wlwzSiteAction!manyWzTitle.action?pattern=hot&areaCode=440200&style=all&currentpage={}&pagesize=20"
     base_detail_url = "https://wlwz.sg.gov.cn/website/wlwz/wlwzSiteAction!findTitleDetail.action?forward=wzxxDetail&themeid={}&areaCode={}"
-    data_path = os.getcwd() + "/WaiBaoSpider/data/%s/" % name
+    data_path = os.getcwd() + "/WaiBaoSpider/data/"
     if os.path.exists(data_path):
         pass
     else:

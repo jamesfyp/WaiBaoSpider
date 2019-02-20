@@ -16,8 +16,8 @@ class GuiZhouSSpider(scrapy.Spider):
     name = "guizhou_qnz_ptx"
     the_id = 188
     all_page = 714
-    base_url = "http://www.gzegn.gov.cn/gzszwfww/cxsx/showcxlb.do?pageno={}&webId={}"
-    data_path = os.getcwd() + "/WaiBaoSpider/data/%s/" % name
+    base_url = "http://www.gzegn.gov.cn/gzszwfww/cxsx/showcxlb.do?pageno={}&applyStartDate=2013-01-01&webId={}"
+    data_path = os.getcwd() + "/WaiBaoSpider/data/"
     if os.path.exists(data_path):
         pass
     else:

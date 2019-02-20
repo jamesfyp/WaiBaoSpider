@@ -10,7 +10,7 @@ import os
 class ChuzhouSpider(scrapy.Spider):
     name = 'chuzhou'
     base_url = "http://www.chuzhou.gov.cn/content/column/2983442?organId=&pageIndex={}"
-    data_path = os.getcwd() + "/WaiBaoSpider/data/%s/" % name
+    data_path = os.getcwd() + "/WaiBaoSpider/data/"
     if os.path.exists(data_path):
         pass
     else:

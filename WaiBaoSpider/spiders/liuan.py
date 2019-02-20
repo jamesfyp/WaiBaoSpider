@@ -11,7 +11,7 @@ class LuAnSpider(scrapy.Spider):
     name = "luan"
     # base_url = "http://www.luan.gov.cn/nocache/supervision/?product_id=3&page={}"
     base_url = "http://www.luan.gov.cn/zxly/?type=product&page={}"
-    data_path = os.getcwd() + "/WaiBaoSpider/data/%s/" % name
+    data_path = os.getcwd() + "/WaiBaoSpider/data/"
     if os.path.exists(data_path):
         pass
     else:
