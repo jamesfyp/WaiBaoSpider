@@ -27,7 +27,7 @@ if res:
     data = resp["data"]["hashtag"]["edge_hashtag_to_media"]["edges"]
     for info in data:
         item = {}
-        item[u"帖子id"] = info["node"]["id"]
+        item[u"帖子id"] = "'{}'".format(info["node"]["id"])
         item[u"作者id"] = info["node"]["owner"]["id"]
         item[u"短id"] = info["node"]["shortcode"]
         p_time = info["node"]["taken_at_timestamp"]
