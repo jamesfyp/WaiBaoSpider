@@ -13,9 +13,9 @@ import os
 
 
 class GuiZhouSSpider(scrapy.Spider):
-    name = "guanshanhu"
-    the_id = 17
-    all_page = 15000
+    name = "majiang"
+    the_id = 175
+    all_page = 13444
     base_url = "http://www.gzegn.gov.cn/gzszwfww/cxsx/showcxlb.do?pageno={}&applyStartDate=2013-01-01&webId={}"
     data_path = os.getcwd() + "/WaiBaoSpider/data/"
     if os.path.exists(data_path):

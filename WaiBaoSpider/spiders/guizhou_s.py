@@ -13,9 +13,9 @@ import os
 
 
 class GuiZhouSSpider(scrapy.Spider):
-    name = "guizhou_qnz_ptx"
-    the_id = 188
-    all_page = 714
+    name = "baiyun"
+    the_id = 16
+    all_page = 15000
     base_url = "http://www.gzegn.gov.cn/gzszwfww/cxsx/showcxlb.do?pageno={}&applyStartDate=2013-01-01&webId={}"
     data_path = os.getcwd() + "/WaiBaoSpider/data/"
     if os.path.exists(data_path):
@@ -25,7 +25,7 @@ class GuiZhouSSpider(scrapy.Spider):
     dump_list = CSVDumper(data_path + "%s_list.csv" % name)
     # dump_detail = CSVDumper(data_path + "%s_detail.csv" % name)
     custom_settings = {
-        'DOWNLOAD_DELAY': 0.2,
+        'DOWNLOAD_DELAY': 0.1,
     }
     headers = {
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36",
@@ -48,7 +48,7 @@ class GuiZhouSSpider(scrapy.Spider):
             item = {}
             item[u"序号"] = info.xpath("./td[1]/text()")[0].strip() if info.xpath("./td[1]/text()") else ""
             item[u"链接"] = info.xpath("./td[9]/a/@href")[0].strip() if info.xpath("./td[9]/a/@href") else ""
-            item[u"办理编号"] = info.xpath("./td[2]/text()")[0].strip() if info.xpath("./td[2]/text()") else ""
+            item[u"办理编号"] = "'{}'".format(info.xpath("./td[2]/text()")[0].strip() if info.xpath("./td[2]/text()") else "")
             item[u"受理部门"] = info.xpath("./td[3]/text()")[0].strip() if info.xpath("./td[3]/text()") else ""
             item[u"受理事项"] = info.xpath("./td[4]/text()")[0].strip() if info.xpath("./td[4]/text()") else ""
             item[u"办理环节"] = info.xpath("./td[5]/text()")[0].strip() if info.xpath("./td[5]/text()") else ""

@@ -8,14 +8,25 @@ import scrapy
 from scrapy import Request
 from lxml import etree
 from WaiBaoSpider.utils.csvWriter import CSVDumper
-from WaiBaoSpider.utils.base import unicode_body
 import os
 
 
+def unicode_body(response):
+    if isinstance(response.body, unicode):
+        return response.body
+    try:
+        return response.body_as_unicode()
+    except:
+        try:
+            return response.body.decode(response.encoding)
+        except:
+            raise Exception("Cannot convert response body to unicode!")
+
+
 class GuiZhouSSpider(scrapy.Spider):
-    name = "guanshanhu"
-    the_id = 17
-    all_page = 15000
+    name = "guizhou_gy"
+    the_id = 2
+    all_page = 64000
     base_url = "http://www.gzegn.gov.cn/gzszwfww/cxsx/showcxlb.do?pageno={}&applyStartDate=2013-01-01&webId={}"
     data_path = os.getcwd() + "/WaiBaoSpider/data/"
     if os.path.exists(data_path):
@@ -48,7 +59,7 @@ class GuiZhouSSpider(scrapy.Spider):
             item = {}
             item[u"序号"] = info.xpath("./td[1]/text()")[0].strip() if info.xpath("./td[1]/text()") else ""
             item[u"链接"] = info.xpath("./td[9]/a/@href")[0].strip() if info.xpath("./td[9]/a/@href") else ""
-            item[u"办理编号"] = "'{}'".format(info.xpath("./td[2]/text()")[0].strip() if info.xpath("./td[2]/text()") else "")
+            item[u"办理编号"] = info.xpath("./td[2]/text()")[0].strip() if info.xpath("./td[2]/text()") else ""
             item[u"受理部门"] = info.xpath("./td[3]/text()")[0].strip() if info.xpath("./td[3]/text()") else ""
             item[u"受理事项"] = info.xpath("./td[4]/text()")[0].strip() if info.xpath("./td[4]/text()") else ""
             item[u"办理环节"] = info.xpath("./td[5]/text()")[0].strip() if info.xpath("./td[5]/text()") else ""
