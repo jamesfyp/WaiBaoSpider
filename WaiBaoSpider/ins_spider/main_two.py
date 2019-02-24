@@ -17,6 +17,7 @@ def deal_ntr(text):
 
 cookies = getcookies()
 session = requests.session()
+session.keep_alive = False
 url = "https://www.instagram.com/graphql/query/?query_hash=f92f56d47dc7a55b606908374b43a314&variables=%7B%22tag_name%22%3A%22%E9%9D%A2%E8%86%9C%22%2C%22show_ranked%22%3Afalse%2C%22first%22%3A6%2C%22after%22%3A%22QVFBa1RtUWlaTGdYSEFnOURrVjZPWGdnZHlYMEFrNUVadzdrTnFmTzUzRGZwM09reUVhUzh2TFdSbXVpYV9aSkJsWjhaTGZpYllPZ0hnRjNZMURkVFhzSQ%3D%3D%22%7D"
 get_user_url = "https://www.instagram.com/graphql/query/?query_hash=292c781d60c07571d58d9ef7808888ef&variables=%7B%22shortcode%22%3A%22{uid}%22%2C%22include_reel%22%3Atrue%2C%22include_logged_out%22%3Afalse%7D"
 for i in cookies:
@@ -48,4 +49,3 @@ if res:
         # print(user_res)
         item[u"发帖作者"] = user_res["data"]["shortcode_media"]["owner"]["reel"]["owner"]["username"]
         dumper.process_item(item)
-# print(res)
