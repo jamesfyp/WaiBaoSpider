@@ -29,7 +29,7 @@ class GetCookie(BasePage):
 
 def getcookies():
     # 生成浏览器实例
-    driver = webdriver.Chrome("/Users/james/PycharmProjects/WaiBaoSpider/WaiBaoSpider/ins_spider/chromedriver")
+    driver = webdriver.Chrome()
     # 生成GetCookies对象
     GC = GetCookie(driver)
     # 打开url
