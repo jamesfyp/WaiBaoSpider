@@ -37,8 +37,7 @@ chrome_options.add_argument('disable-infobars')
 chrome_options.add_argument(
     '--user-agent=Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.{}.26 Safari/537.36 Core/1.63.5702.400 QQBrowser/10.2.1893.400'.format(
         str(random.randrange(1100, 9250))))
-driver = webdriver.Chrome(chrome_options=chrome_options,
-                          executable_path="/Users/james/PycharmProjects/WaiBaoSpider/WaiBaoSpider/ins_spider/chromedriver")
+driver = webdriver.Chrome(chrome_options=chrome_options)
 wait = domi_wait(driver, max_second=60)
 driver.get("https://www.dianping.com/login?redir=https://www.dianping.com/")
 wait.until(EC.presence_of_element_located(check_link))
@@ -92,6 +91,8 @@ def get_one_page(driver, url, word_box=None):
     # 添加 评论总量
     all_comment = html.xpath('//em[@class="col-exp"]//text()')[0].replace('(', '').replace(')', '') if html.xpath(
         '//em[@class="col-exp"]//text()') else 0
+    dianpu_name = html.xpath("//h1[@class='shop-name']/text()")[0].strip() if html.xpath(
+        "//h1[@class='shop-name']/text()") else ""
     # # 处理缺字问题
     if not word_box:
         css_urls = html.xpath('//link[@rel="stylesheet"]/@href')
@@ -159,19 +160,20 @@ def get_one_page(driver, url, word_box=None):
         result[u'环境'] = pf_biaoz(hjj)
 
         result[u'店铺总评论量'] = all_comment
+        result[u'店铺名称'] = dianpu_name
 
         starts = line.xpath(".//div[@class='review-rank']/span[1]/@class")[0]
         starts = re.search('(\\d+)', starts).group(1)
         result[u'评分'] = int(starts) / 10
         like = line.xpath('.//em[@class="col-exp"]/text()')
         result[u'赞'] = like[0].replace('(', '').replace(')', '') if like else '0'
-        rep = line.xpath(".//p[@class='shop-reply-content Hide']/text()")
-        # 经过矫正的回复
-        result[u'回应'] = rep[0].strip().replace(u'\xa0', ' ') if rep else ''
-        result[u'回应时间'] = '-'
-        if result[u'回应']:
-            rept = line.xpath('.//div[@class="shop-reply"]//span[@class="date"]/text()')
-            result[u'回应时间'] = rept[0]
+        # rep = line.xpath(".//p[@class='shop-reply-content Hide']/text()")
+        # # 经过矫正的回复
+        # result[u'回应'] = rep[0].strip().replace(u'\xa0', ' ') if rep else ''
+        # result[u'回应时间'] = '-'
+        # if result[u'回应']:
+        #     rept = line.xpath('.//div[@class="shop-reply"]//span[@class="date"]/text()')
+        #     result[u'回应时间'] = rept[0]
         dumper.process_item(result)
 
         # more = line.xpath(".//div[@class='more-related-reviews']")
@@ -245,8 +247,9 @@ for shop_id in keys:
     print("start this shop %s" % shop_id)
     url = base_url.format(shop_id)
     word_box = get_one_page(driver, url)
-    while driver.find_element_by_class_name("NextPage"):
+    while driver.find_elements_by_class_name("NextPage"):
         next_url = driver.find_element_by_class_name("NextPage").get_attribute("href")
         get_one_page(driver, next_url, word_box)
     else:
-        break
+        print("no last page and start next shop!!!!")
+        continue
