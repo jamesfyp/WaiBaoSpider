@@ -12,67 +12,38 @@ from WaiBaoSpider.utils.base import unicode_body
 
 
 class GuiZhouSSpider(scrapy.Spider):
-    name = "guizhouall"
-    # all_list = [
-    #     "zhongshanqu-132-15000",
-    #     "huichuanqu-27-15000",
-    #     "bozhouqu-28-15000",
-    #     "tongziqu-29-15000",
-    #     "suiyang-30-15000",
-    #     "zhengan-31-15000",
-    #     "wuchuan-33-15000",
-    #     "yuqing-202-16089",
-    #     "xishui-37-15000",
-    #     "chishui-38-15000",
-    #     "renhuai-39-15000",
-    #     "xinpuxin-127-15000",
-    #     "zhenning-136-15000",
-    #     "ziyun-138-15000",
-    #     "anshunkaifa-139-15000",
-    #     "dafang-142-15000",
-    #     "qianxixian-143-15000",
-    # ]
-    all_list = [
-        "zhijin-145-15000",
-        "nayong-146-15000",
-        "weining-147-15000",
-        "hezhang-148-15000",
-        "songtao-153-15000",
-        "yuping-154-15000",
-        "jiangkou-155-15000",
-        "shiqianxian-156-16089",
-        "yinjiang-157-15000",
-        "dejiang-159-16139",
-        "yanhe-160-13545",
-        "xingyi-191-15000",
-        "xingren-192-15000",
-        "zhenfeng-194-15000",
-        "puan-197-15573",
-        "qinglong-195-15000",
-        "ceheng-196-15000",
-        "kaili-161-15000",
-        # "shibing-163-15000",
-        # "sansui-164-15000",
-        # "zhenyuan-165-15000",
-        # "cengong-166-15000",
-        # "tianzhu-167-15000",
-        # "jinping-168-15247",
-        # "taijiang-170-15264",
-        # "rongjiang-172-15000",
-        # "congjiang-173-15000",
-        # "danzhaixian-176-13501",
-        # "kailikaifa-177-15000",
-        # "fuquan-179-15000",
-        # "wengan-180-15000",
-        # "huishui-183-8851",
-        # "changshun-184-15000",
-        # "dushan-185-15000",
-        # "sandu-186-15000",
-        # "libo-187-15000",
-        # "pingtang-188-15000",
-    ]
-    base_url = "http://www.gzegn.gov.cn/gzszwfww/cxsx/showcxlb.do?pageno={}&applyStartDate=2013-01-01&webId={}"
-    # dump_detail = CSVDumper(data_path + "%s_detail.csv" % name)
+    name = "guizhoubu"
+    all_dict = {
+        u"黔南州独山": [185, "2018-09-10"],
+        u"黔南州福泉": [179, "2018-06-01"],
+        u"黔南州荔波": [187, "2018-03-18"],
+        u"黔南州平塘": [188, "2018-09-28"],
+        u"黔南州三都": [186, "2018-11-30"],
+        u"黔南州瓮安": [180, "2017-12-21"],
+        u"黔南州长顺": [184, "2018-11-23"],
+        u"黔西南册亨": [196, "2017-08-17"],
+        u"黔西南晴隆": [195, "2017-11-30"],
+        u"黔西南兴仁": [192, "2018-06-21"],
+        u"黔西南兴义": [191, "2018-04-02"],
+        u"黔西南贞丰": [194, "2017-11-22"],
+        u"铜仁江口": [155, "2017-12-26"],
+        u"铜仁石阡": [156, "2018-05-28"],
+        u"铜仁松桃": [153, "2018-02-01"],
+        u"铜仁印江": [157, "2018-12-26"],
+        u"铜仁玉屏": [154, "2018-01-09"],
+        u"遵义播州": [28, "2018-01-29"],
+        u"遵义赤水": [38, "2018-07-24"],
+        u"遵义汇川": [27, "2017-12-08"],
+        u"遵义仁怀": [39, "2018-10-22"],
+        u"遵义绥阳": [30, "2018-02-24"],
+        u"遵义桐梓": [29, "2018-10-09"],
+        u"遵义务川": [33, "2017-12-18"],
+        u"遵义习水": [37, "2018-07-10"],
+        u"遵义新蒲新": [127, "2017-12-19"],
+        u"遵义余庆": [202, "2017-08-30"],
+        u"遵义正安": [31, "2018-02-27"],
+    }
+    base_url = "http://bjjs.gzegn.gov.cn/gzszwfww/cxsx/showcxlb.do?pageno={pn}&applyStartDate=2017-01-01&applyEndDate={std}&webId={id}"
     custom_settings = {
         'DOWNLOAD_DELAY': 0.1,
     }
@@ -81,23 +52,22 @@ class GuiZhouSSpider(scrapy.Spider):
     }
 
     def start_requests(self):
-        for info in self.all_list:
-            info_l = info.split("-")
-            iname = info_l[0]
-            the_id = info_l[1]
-            all_page = info_l[2]
-            dumper = CSVDumper("%s_list.csv" % iname)
-            for i in range(1, int(all_page)):
-                print("%s-%s" % (iname, i))
-                # for i in range(1, 2):
-                # self.data_form["pageID"] = str(i)
-                url = self.base_url.format(i, the_id)
-                yield Request(url, callback=self.parse_list, headers=self.headers, meta={"dump": dumper})
+        for info in self.all_dict:
+            id = self.all_dict[info][0]
+            std = self.all_dict[info][1]
+            dumper = CSVDumper(u"%s_buchonglist.csv" % info)
+            url = self.base_url.format(pn=1, std=std, id=id)
+            yield Request(url, callback=self.parse_list, headers=self.headers,
+                          meta={"dump": dumper, "pn": 1, "wid": id, "std": std})
 
     def parse_list(self, response):
         body = unicode_body(response)
         html = etree.HTML(body)
-        dumper = response.meta["dump"]
+        data = response.meta
+        dumper = data["dump"]
+        pn = data["pn"]
+        wid = data["wid"]
+        std = data["std"]
         lines = html.xpath("//div[@class='sec']/table/div[@id='tab1_link']/tr")
         print(len(lines))
         for info in lines:
@@ -114,3 +84,8 @@ class GuiZhouSSpider(scrapy.Spider):
             item[u"申请人"] = info.xpath("./td[8]/text()")[0].strip() if info.xpath("./td[8]/text()") else ""
             item[u"办理结果"] = info.xpath("./td[9]/a/text()")[0].strip() if info.xpath("./td[9]/a/text()") else ""
             dumper.process_item(item)
+        if len(lines) > 5:
+            pn += 1
+            url = self.base_url.format(pn=pn, std=std, id=wid)
+            yield Request(url, callback=self.parse_list, headers=self.headers,
+                          meta={"dump": dumper, "pn": pn, "wid": wid, "std": std})
