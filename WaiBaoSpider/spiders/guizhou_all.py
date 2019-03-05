@@ -68,3 +68,4 @@ class GuiZhouSSpider(scrapy.Spider):
             url = self.base_url.format(pn=pn, std=std, id=wid)
             yield Request(url, callback=self.parse_list, headers=self.headers,
                           meta={"dump": dumper, "pn": pn, "wid": wid, "std": std, "page_all": page_all})
+
