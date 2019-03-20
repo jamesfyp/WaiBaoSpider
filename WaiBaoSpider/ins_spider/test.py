@@ -25,3 +25,9 @@ import requests
 # print(res)
 
 
+r = eval(str(input()))
+s = 3.14*r*r
+c = 2*r*3.14
+print("{0:.3f}{1:.2f}".format(s, c))
+
+
