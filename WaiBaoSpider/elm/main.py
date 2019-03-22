@@ -3,13 +3,56 @@
 # @Date: 2019/3/20
 # @File: main.py
 # @Software: PyCharm
-
+import json
 import re
 import requests
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+
+item = {
+    "rating":"",
+    "regular_customer_count":"",
+    "has_story":"",
+    "recommend_reasons":"",
+    "flavors":"",
+    "rating_count":"",
+    "opening_hours":"",
+    "recent_order_num":"",
+    "float_minimum_order_amount":"",
+    "theme":"",
+    "float_delivery_fee":"",
+    "is_valid":"",
+    "max_applied_quantity_per_order":"",
+    "latitude":"",
+    "longitude":"",
+    "status":"",
+    "description":"",
+
+    "piecewise_agent_fee":"",
+    "phone":"",
+    "address":"",
+    "posters":"",
+    "distance":"",
+    "updatetime":"",
+    "name":"",
+    "type":"",
+    "authentic_id":"",
+    "next_business_time":"",
+    "only_use_poi":"",
+    "description":"",
+    "description":"",
+    "description":"",
+    "description":"",
+    "description":"",
+    "description":"",
+    "description":"",
+    "description":"",
+    "description":"",
+    "description":"",
+    "description":"",
+}
 
 driver = webdriver.Chrome("./chromedriver")
 
@@ -38,4 +81,6 @@ of = 24
 the_url = list_url.format(la=la, lo=lo, of=of, gh=geohash)
 print(the_url)
 res = session.get(the_url).text
-print(res)
+respp = json.loads(res)
+for info in respp:
+
