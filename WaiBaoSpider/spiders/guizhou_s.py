@@ -32,10 +32,8 @@ class GuiZhouSSpider(scrapy.Spider):
     }
 
     def start_requests(self):
-        for i in range(1, self.all_page):
+        for i in range(1, 1000000):
             print(i)
-            # for i in range(1, 2):
-            # self.data_form["pageID"] = str(i)
             url = self.base_url.format(i, self.the_id)
             yield Request(url, callback=self.parse_list, headers=self.headers)
 
@@ -48,7 +46,8 @@ class GuiZhouSSpider(scrapy.Spider):
             item = {}
             item[u"序号"] = info.xpath("./td[1]/text()")[0].strip() if info.xpath("./td[1]/text()") else ""
             item[u"链接"] = info.xpath("./td[9]/a/@href")[0].strip() if info.xpath("./td[9]/a/@href") else ""
-            item[u"办理编号"] = "'{}'".format(info.xpath("./td[2]/text()")[0].strip() if info.xpath("./td[2]/text()") else "")
+            item[u"办理编号"] = "'{}'".format(
+                info.xpath("./td[2]/text()")[0].strip() if info.xpath("./td[2]/text()") else "")
             item[u"受理部门"] = info.xpath("./td[3]/text()")[0].strip() if info.xpath("./td[3]/text()") else ""
             item[u"受理事项"] = info.xpath("./td[4]/text()")[0].strip() if info.xpath("./td[4]/text()") else ""
             item[u"办理环节"] = info.xpath("./td[5]/text()")[0].strip() if info.xpath("./td[5]/text()") else ""

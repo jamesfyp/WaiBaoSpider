@@ -34,3 +34,11 @@ import requests
 # print(b)
 resp = requests.post("http://apidata.chinaz.com/batchapi/GetApiData", data={"taskid": "5d9ebbe6e778469e9ba1feea"}).text
 print(resp)
+
+
+r = eval(str(input()))
+s = 3.14*r*r
+c = 2*r*3.14
+print("{0:.3f}{1:.2f}".format(s, c))
+
+
