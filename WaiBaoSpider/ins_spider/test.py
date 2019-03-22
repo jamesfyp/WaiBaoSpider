@@ -3,10 +3,11 @@
 # @Date: 2019/2/24
 # @File: test.py
 # @Software: PyCharm
-
+import re
 import time
 from urllib import quote
 import requests
+
 #
 # a = "2018-07-01 00:00:00"
 # b = "2018-12-31 00:00:00"
@@ -18,11 +19,21 @@ import requests
 # print(d)
 
 # headers = {
-#     "cookie": 'mid=XGqhzQAEAAEBgt1eCyWsMrMB-I8a; shbid=7432; shbts=1550935947.7486203; rur=ASH; csrftoken=bRenW0F7mNbxrfJo40IT3RmtYdkpgevS; ds_user_id=6693855049; sessionid=6693855049%3AN7dSuz2QPknOr7%3A7; urlgen="{\"118.130.42.209\": 3786}:1gxlt0:MQE6LQVqA_Yx1TDr9O9Wfrzh9Mw"',
+#     "User-Agent": 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36',
+#     "Cookie": "__jsl_clearance=1551317446.257|0|Z5im7o00MItY4ISK5dq3D;Expires=Thu, 28-Feb-19 02:30:46 GMT;Path=/;"
 # }
-# url = "https://www.instagram.com/graphql/query/?query_hash=f92f56d47dc7a55b606908374b43a314&variables=%7B%22tag_name%22%3A%22%E9%9D%A2%E8%86%9C%22%2C%22show_ranked%22%3Afalse%2C%22first%22%3A12%2C%22after%22%3A%22QVFDa2MzWjVkM0o3QjEtcllJOTFzTEFkUE5NVDdYZnJZWG94a24tdVB0akM0ZWRUU2M4LU03UW9TNEVULTlWQ09xLUY3SXZ1RlI0dTFCME5KNXlRaGdnRA%3D%3D%22%7D"
-# res = requests.get(url, headers=headers).text
+# url = "http://www.dpac.gov.cn/qczh/qczhgg1/"
+# res = requests.get(url).content
 # print(res)
+# print(res.status_code)
+# import dateformatting
+#
+# a = "02-28"
+#
+# b = dateformatting.parse(a).strftime("%Y%m%d")
+# print(b)
+resp = requests.post("http://apidata.chinaz.com/batchapi/GetApiData", data={"taskid": "5d9ebbe6e778469e9ba1feea"}).text
+print(resp)
 
 
 r = eval(str(input()))
