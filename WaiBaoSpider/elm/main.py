@@ -3,84 +3,78 @@
 # @Date: 2019/3/20
 # @File: main.py
 # @Software: PyCharm
-import json
-import re
-import requests
+import time
+import redis
+import random
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-item = {
-    "rating":"",
-    "regular_customer_count":"",
-    "has_story":"",
-    "recommend_reasons":"",
-    "flavors":"",
-    "rating_count":"",
-    "opening_hours":"",
-    "recent_order_num":"",
-    "float_minimum_order_amount":"",
-    "theme":"",
-    "float_delivery_fee":"",
-    "is_valid":"",
-    "max_applied_quantity_per_order":"",
-    "latitude":"",
-    "longitude":"",
-    "status":"",
-    "description":"",
+rediser = redis.Redis(host='127.0.0.1', port='6379', db=2, )
 
-    "piecewise_agent_fee":"",
-    "phone":"",
-    "address":"",
-    "posters":"",
-    "distance":"",
-    "updatetime":"",
-    "name":"",
-    "type":"",
-    "authentic_id":"",
-    "next_business_time":"",
-    "only_use_poi":"",
-    "description":"",
-    "description":"",
-    "description":"",
-    "description":"",
-    "description":"",
-    "description":"",
-    "description":"",
-    "description":"",
-    "description":"",
-    "description":"",
-    "description":"",
-}
+option = webdriver.ChromeOptions()
+option.add_argument('--proxy-server=http://127.0.0.1:8000')
+option.add_argument(
+    '--user-agent=Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36')
+driver = webdriver.Chrome(executable_path="./chromedriver", options=option)
 
-driver = webdriver.Chrome("./chromedriver")
+wait = WebDriverWait(driver, 30, 1)
 
-list_url = "https://www.ele.me/restapi/shopping/restaurants?extras%5B%5D=activities&geohash={gh}&latitude={la}&limit=24&longitude={lo}&offset={of}&terminal=web"
+driver.get("https://www.ele.me/")
+# browser.add_cookie({"name": "cy", "value": "148"})
+driver.add_cookie({"name": "ubt_ssid", "value": "gj10m2ir1s2mspy7dg706vn0js6psq9o_2019-03-20"})
+driver.add_cookie({"name": "_utrace", "value": "d78c176a5d8890d24445cfa420b81fa5_2019-03-20"})
+# driver.add_cookie({"name": "perf_ssid", "value": "1fqmr4i5i1mxun75cznm5ilz1p1u7atd_2019-03-20"})
+driver.add_cookie({"name": "cna", "value": "6qeRFJNUxAMCAT2cydFg/fUc"})
+driver.add_cookie(
+    {"name": "eleme__ele_me", "value": "597ad32a9035a95ae5864d2162e13c9d%3A08c83c1c8529de4f8b019a90d0e74a2f44e740ba"})
+driver.add_cookie({"name": "track_id",
+                   "value": "1553086509|9166c6f7f0a679d36e2aad687322978e644b7aa604839d4666|f8e3fc3a47813d69da35afef54ab572b"})
+driver.add_cookie({"name": "USERID", "value": "2085922706"})
+driver.add_cookie({"name": "UTUSER", "value": "2085922706"})
+driver.add_cookie({"name": "SID", "value": "epYbo22nwVC6mtqZLZ5ZbtChe1XtKICNYcvA"})
+driver.add_cookie({"name": "isg", "value": "BFlZcOTUYVBJPj3O062pqH4faEPzTk3hxLLooHsOiAD_gn0U2jSCaVGTgAZROuXQ"})
+driver.add_cookie(
+    {"name": "pizza73686f7070696e67", "value": "CPuz42fVoxnRVcVQ1x33fTPbVZfw-_INk1g5lYTK95HfJSSrfGpBaY62BOIYZvO1"})
 
-driver.get("https://h5.ele.me/login/#redirect=https%3A%2F%2Fwww.ele.me")
-wait = WebDriverWait(driver, 100, 0.7)
-wait.until(
-    EC.presence_of_element_located((By.XPATH, "//span[@class='map-header-right ng-scope']/a[@class='ng-binding']")))
-print("yes")
-driver.find_element_by_xpath("//input[@ng-model='search.keyword']").send_keys(u"烟台")
-wait.until(EC.element_to_be_clickable((By.XPATH, "(//li[@ng-click='search.chooseAction(suggest)'])[1]")))
-driver.find_element_by_xpath("(//li[@ng-click='search.chooseAction(suggest)'])[1]").click()
-
-base_url = driver.current_url
-print(base_url)
-cookies = driver.get_cookies()
-session = requests.session()
-for i in cookies:
-    session.cookies.set(i['name'], i['value'])
-driver.close()
-geohash = re.search("ele\.me/place/(.*)\?", base_url).group(1)
-la = re.search("latitude=(\d+\.\d+)", base_url).group(1)
-lo = re.search("longitude=(\d+\.\d+)", base_url).group(1)
-of = 24
-the_url = list_url.format(la=la, lo=lo, of=of, gh=geohash)
-print(the_url)
-res = session.get(the_url).text
-respp = json.loads(res)
-for info in respp:
-
+for tag_num in range(50):
+    ss = rediser.spop("beijingaddr")
+    rediser.sadd("beijingaddr_back", ss)
+    if ss:
+        ss_list = ss.split("#$#$")
+        count = int(ss_list[0])
+        print("count: %s " % count)
+        geo = ss_list[1]
+        lo = ss_list[2]
+        la = ss_list[3]
+        print("start one localtion %s, %s" % (tag_num, geo))
+        url = "https://www.ele.me/place/{geo}?latitude={la}&longitude={lo}".format(geo=geo, la=la, lo=lo)
+        driver.get(url)
+        time.sleep(2)
+        flag = True
+        while flag:
+            while True:
+                a = driver.page_source
+                print("start fan page")
+                for i in range(20):
+                    time.sleep(0.5)
+                    driver.find_element_by_xpath("//html").send_keys(Keys.SPACE)
+                    # focu = driver.find_element_by_xpath("//h5[@class='owner']")
+                    # driver.execute_script("arguments[0].focus();", focu)
+                b = driver.page_source
+                if a == b:
+                    break
+                else:
+                    continue
+            while True:
+                try:
+                    wait.until(EC.element_to_be_clickable((By.XPATH, "//div[@id='fetchMoreRst']")))
+                except:
+                    flag = False
+                    break
+                driver.find_element_by_xpath("//div[@id='fetchMoreRst']").click()
+                time.sleep(random.randint(5, 15))
+                break
+    time.sleep(30)
