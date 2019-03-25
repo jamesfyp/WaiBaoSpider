@@ -6,6 +6,8 @@
 import time
 import redis
 import random
+
+from lxml import etree
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -39,7 +41,7 @@ driver.add_cookie({"name": "isg", "value": "BFlZcOTUYVBJPj3O062pqH4faEPzTk3hxLLo
 driver.add_cookie(
     {"name": "pizza73686f7070696e67", "value": "CPuz42fVoxnRVcVQ1x33fTPbVZfw-_INk1g5lYTK95HfJSSrfGpBaY62BOIYZvO1"})
 
-for tag_num in range(50):
+for tag_num in range(700):
     ss = rediser.spop("beijingaddr")
     rediser.sadd("beijingaddr_back", ss)
     if ss:
@@ -52,6 +54,12 @@ for tag_num in range(50):
         print("start one localtion %s, %s" % (tag_num, geo))
         url = "https://www.ele.me/place/{geo}?latitude={la}&longitude={lo}".format(geo=geo, la=la, lo=lo)
         driver.get(url)
+        ps = driver.page_source
+        html = etree.HTML(ps)
+        if html.xpath("//div[@class='login-for-more']"):
+        # if driver.find_element_by_xpath("//div[@class='login-for-more']"):
+            print("登陆过期！！！！！！！！！！！！！！！！！！！！！！！")
+            break
         time.sleep(2)
         flag = True
         while flag:
