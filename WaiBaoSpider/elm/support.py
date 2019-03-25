@@ -61,7 +61,7 @@ def deal_text(content):
             item[u"店铺名"] = info["name"]
             item[u"店铺分类"] = info["type"]
             item[u"店铺地址"] = info["address"]
-            item[u"scheme"] = info["scheme"]
+            item[u"scheme"] = "https://h5.ele.me/shop/#id={}".format(info["id"])
             tag_detail = u"{}#$#${}".format(u"'{}'".format(item[u"authid"]), item[u"scheme"])
             a = rediser.sadd("BeijingUrl", tag_detail)
             ctx.log("### %s ###" % a)
