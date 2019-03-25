@@ -34,12 +34,12 @@ driver.add_cookie(
     {"name": "eleme__ele_me", "value": "597ad32a9035a95ae5864d2162e13c9d%3A08c83c1c8529de4f8b019a90d0e74a2f44e740ba"})
 driver.add_cookie({"name": "track_id",
                    "value": "1553086509|9166c6f7f0a679d36e2aad687322978e644b7aa604839d4666|f8e3fc3a47813d69da35afef54ab572b"})
-driver.add_cookie({"name": "USERID", "value": "2085922706"})
-driver.add_cookie({"name": "UTUSER", "value": "2085922706"})
-driver.add_cookie({"name": "SID", "value": "epYbo22nwVC6mtqZLZ5ZbtChe1XtKICNYcvA"})
-driver.add_cookie({"name": "isg", "value": "BFlZcOTUYVBJPj3O062pqH4faEPzTk3hxLLooHsOiAD_gn0U2jSCaVGTgAZROuXQ"})
+driver.add_cookie({"name": "USERID", "value": "1375760058"})
+driver.add_cookie({"name": "UTUSER", "value": "1375760058"})
+driver.add_cookie({"name": "SID", "value": "wCKOYbobFovj0Tr5A3kgEyoP7gRQGLR5TCLQ"})
+driver.add_cookie({"name": "isg", "value": "BHBwq7rc2OpB_YTlIqIAI184QTgCEVR6hfUxi2rBvkueJRTPA8vkklEUeW3gtQzb"})
 driver.add_cookie(
-    {"name": "pizza73686f7070696e67", "value": "CPuz42fVoxnRVcVQ1x33fTPbVZfw-_INk1g5lYTK95HfJSSrfGpBaY62BOIYZvO1"})
+    {"name": "pizza73686f7070696e67", "value": "9n5StWrlVIv0LTcR6n8rV2x_X2EFB1BHq4Gpbfz7ZKf8dajccQJ0YMhU3QLIrMpa"})
 
 for tag_num in range(700):
     ss = rediser.spop("beijingaddr")
