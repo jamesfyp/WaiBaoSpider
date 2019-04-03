@@ -26,22 +26,23 @@ headers_d = {
 }
 
 while True:
+    # try:
+    #     all_in = rediser.spop("BeijingUrl")
+    # # all_in = "''8364529521265123''#$#$https://h5.ele.me/shop/#id=E4164727854040463229"
+    # except:
+    #     break
+    # print("--%s--" % all_in)
+    # all_in_l = all_in.split("#$#$")
+    # auid = all_in_l[0].strip()[1:-1]
+    # url = all_in_l[1].strip()
+    item = {u"id": "aaa", u"菜品名称/菜品销量/好评率/菜品分类/菜品价格": u"-"}
     try:
-        all_in = rediser.spop("BeijingUrl")
-    # all_in = "''8364529521265123''#$#$https://h5.ele.me/shop/#id=E4164727854040463229"
-    except:
-        break
-    print("--%s--" % all_in)
-    all_in_l = all_in.split("#$#$")
-    auid = all_in_l[0].strip()[1:-1]
-    url = all_in_l[1].strip()
-    item = {u"id": auid, u"菜品名称/菜品销量/好评率/菜品分类/菜品价格": u"-"}
-    try:
-        id = re.search("shop/#id=(.*)", url)
-        if not id:
-            id = re.search("shop/\?id=(.*)", url)
-        id = id.group(1)
-        print("%s -- %s" % (auid, id))
+        # id = re.search("shop/#id=(.*)", url)
+        # if not id:
+        #     id = re.search("shop/\?id=(.*)", url)
+        # id = id.group(1)
+        id = "E17166512646533728554"
+        # print("%s -- %s" % (auid, id))
         api_u = caidan_url.format(id)
         print(api_u)
         res = requests.get(api_u, headers=headers_d).text
