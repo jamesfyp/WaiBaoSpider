@@ -26,20 +26,20 @@ wait = WebDriverWait(driver, 30, 1)
 
 driver.get("https://www.ele.me/")
 # browser.add_cookie({"name": "cy", "value": "148"})
-driver.add_cookie({"name": "ubt_ssid", "value": "gj10m2ir1s2mspy7dg706vn0js6psq9o_2019-03-20"})
-driver.add_cookie({"name": "_utrace", "value": "d78c176a5d8890d24445cfa420b81fa5_2019-03-20"})
+driver.add_cookie({"name": "ubt_ssid", "value": ""})
+driver.add_cookie({"name": "_utrace", "value": ""})
 # driver.add_cookie({"name": "perf_ssid", "value": "1fqmr4i5i1mxun75cznm5ilz1p1u7atd_2019-03-20"})
-driver.add_cookie({"name": "cna", "value": "6qeRFJNUxAMCAT2cydFg/fUc"})
+driver.add_cookie({"name": "cna", "value": ""})
 driver.add_cookie(
-    {"name": "eleme__ele_me", "value": "597ad32a9035a95ae5864d2162e13c9d%3A08c83c1c8529de4f8b019a90d0e74a2f44e740ba"})
+    {"name": "eleme__ele_me", "value": ""})
 driver.add_cookie({"name": "track_id",
-                   "value": "1553086509|9166c6f7f0a679d36e2aad687322978e644b7aa604839d4666|f8e3fc3a47813d69da35afef54ab572b"})
-driver.add_cookie({"name": "USERID", "value": "1375760058"})
-driver.add_cookie({"name": "UTUSER", "value": "1375760058"})
-driver.add_cookie({"name": "SID", "value": "wCKOYbobFovj0Tr5A3kgEyoP7gRQGLR5TCLQ"})
-driver.add_cookie({"name": "isg", "value": "BHBwq7rc2OpB_YTlIqIAI184QTgCEVR6hfUxi2rBvkueJRTPA8vkklEUeW3gtQzb"})
+                   "value": ""})
+driver.add_cookie({"name": "USERID", "value": ""})
+driver.add_cookie({"name": "UTUSER", "value": ""})
+driver.add_cookie({"name": "SID", "value": ""})
+driver.add_cookie({"name": "isg", "value": ""})
 driver.add_cookie(
-    {"name": "pizza73686f7070696e67", "value": "9n5StWrlVIv0LTcR6n8rV2x_X2EFB1BHq4Gpbfz7ZKf8dajccQJ0YMhU3QLIrMpa"})
+    {"name": "pizza73686f7070696e67", "value": ""})
 
 for tag_num in range(700):
     ss = rediser.spop("beijingaddr")
@@ -57,7 +57,7 @@ for tag_num in range(700):
         ps = driver.page_source
         html = etree.HTML(ps)
         if html.xpath("//div[@class='login-for-more']"):
-        # if driver.find_element_by_xpath("//div[@class='login-for-more']"):
+            # if driver.find_element_by_xpath("//div[@class='login-for-more']"):
             print("登陆过期！！！！！！！！！！！！！！！！！！！！！！！")
             break
         time.sleep(2)

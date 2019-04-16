@@ -22,7 +22,7 @@ rediser = redis.Redis(host='127.0.0.1', port='6379', db=0, )
 headers_d = {
     "referer": "",
     "user-agent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36",
-    "cookie": "ubt_ssid=gpwl817tsmrrdhkgo5lbbpfsi552ag8n_2019-03-25; _utrace=6cc90bb092beae58c1535aa8d78cd71d_2019-03-25; cna=sifhFGmetj4CAd9hpMaKZmG5; track_id=1553523981|3051714104ad20f44bb8e3a097178408dbdf1515dc23e9f838|44c0ba33b550a068a5aac49fa1d52af3; USERID=219478676; UTUSER=219478676; SID=FyWV5HTwXZ2IfjY3imRcafnGDV7I2RPhsvsg; isg=BNbWeNYJljl5PqKdlHttex5RJ4wY32EBNsvUqEA_vLlUA3KdugXzwEbyn99KqxLJ; pizza73686f7070696e67=aDc25_HrnseUqkvJ4FoHbOoRlWeo9BiUPioCihDCWk0Nv59dP0OjJPX1TKNGZ5FY",
+    "cookie": "",
 }
 
 while True:
