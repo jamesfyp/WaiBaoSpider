@@ -59,7 +59,15 @@ def deal_text(content):
             item[u"纬度"] = "'{}'".format(info["latitude"])
             item[u"经度"] = "'{}'".format(info["longitude"])
             item[u"店铺名"] = info["name"]
-            item[u"店铺分类"] = info["type"]
+            dianpufenlei = info["flavors"]
+            dianpufenlei_l = []
+            if dianpufenlei:
+                for i in dianpufenlei:
+                    ccc = i.get("name", u" ")
+                    dianpufenlei_l.append(ccc)
+                item[u"店铺分类"] = u"/".join(dianpufenlei_l)
+            else:
+                item[u"店铺分类"] = u" "
             item[u"店铺地址"] = info["address"]
             item[u"scheme"] = "https://h5.ele.me/shop/#id={}".format(info["id"])
             tag_detail = u"{}#$#${}".format(u"'{}'".format(item[u"authid"]), item[u"scheme"])
