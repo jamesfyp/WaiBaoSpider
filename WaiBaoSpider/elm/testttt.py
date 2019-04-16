@@ -46,7 +46,7 @@ while True:
         api_u = caidan_url.format(id)
         print(api_u)
         res = requests.get(api_u, headers=headers_d).text
-        print(res)
+        # print(res)
         liness = json.loads(res)
         lines = liness.get("menu", [])
         if lines:
@@ -71,4 +71,4 @@ while True:
     except:
         print(str(traceback.format_exc()))
         dumper.process_item(item)
-    time.sleep(3)
+    time.sleep(2)
