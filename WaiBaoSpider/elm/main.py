@@ -5,7 +5,6 @@
 # @Software: PyCharm
 import time
 import redis
-import random
 
 from lxml import etree
 from selenium import webdriver
@@ -36,10 +35,10 @@ driver.add_cookie({"name": "track_id",
                    "value": "1553086509|9166c6f7f0a679d36e2aad687322978e644b7aa604839d4666|f8e3fc3a47813d69da35afef54ab572b"})
 driver.add_cookie({"name": "USERID", "value": "1375760058"})
 driver.add_cookie({"name": "UTUSER", "value": "1375760058"})
-driver.add_cookie({"name": "SID", "value": "wCKOYbobFovj0Tr5A3kgEyoP7gRQGLR5TCLQ"})
-driver.add_cookie({"name": "isg", "value": "BHBwq7rc2OpB_YTlIqIAI184QTgCEVR6hfUxi2rBvkueJRTPA8vkklEUeW3gtQzb"})
+driver.add_cookie({"name": "SID", "value": "xy2bkkUZy6bGElXpTO18Rhq90P5DKDuBEWAw"})
+driver.add_cookie({"name": "isg", "value": "BHl5EEcvAfWYfd1uM02JSJ7_iOOTLm1Bi8ov9puukqAfIp208dSzCXpzoGZxmgVw"})
 driver.add_cookie(
-    {"name": "pizza73686f7070696e67", "value": "9n5StWrlVIv0LTcR6n8rV2x_X2EFB1BHq4Gpbfz7ZKf8dajccQJ0YMhU3QLIrMpa"})
+    {"name": "pizza73686f7070696e67", "value": "9n5StWrlVIv0LTcR6n8rVwmt8IqjQspy3206SkVUBp69tpZysQAZgavRRaLZLYbm"})
 
 for tag_num in range(700):
     ss = rediser.spop("beijingaddr")
@@ -57,7 +56,7 @@ for tag_num in range(700):
         ps = driver.page_source
         html = etree.HTML(ps)
         if html.xpath("//div[@class='login-for-more']"):
-        # if driver.find_element_by_xpath("//div[@class='login-for-more']"):
+            # if driver.find_element_by_xpath("//div[@class='login-for-more']"):
             print("登陆过期！！！！！！！！！！！！！！！！！！！！！！！")
             break
         time.sleep(2)
@@ -66,9 +65,10 @@ for tag_num in range(700):
             while True:
                 a = driver.page_source
                 print("start fan page")
-                for i in range(20):
-                    time.sleep(0.5)
-                    driver.find_element_by_xpath("//html").send_keys(Keys.SPACE)
+                for i in range(4):
+                    for j in range(7):
+                        driver.find_element_by_xpath("//html").send_keys(Keys.SPACE)
+                    time.sleep(3)
                     # focu = driver.find_element_by_xpath("//h5[@class='owner']")
                     # driver.execute_script("arguments[0].focus();", focu)
                 b = driver.page_source
@@ -83,6 +83,6 @@ for tag_num in range(700):
                     flag = False
                     break
                 driver.find_element_by_xpath("//div[@id='fetchMoreRst']").click()
-                time.sleep(random.randint(5, 15))
+                time.sleep(5)
                 break
-    time.sleep(30)
+    time.sleep(10)
